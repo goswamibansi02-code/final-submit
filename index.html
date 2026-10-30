@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brew & Bean | Artisanal Coffee Roasters</title>
+    
+    <!-- Tailwind CSS CDN for Login Module -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        coffee: {
+                            50: '#fdfbf7',
+                            100: '#f5efe6',
+                            200: '#e8dccb',
+                            300: '#d4c2a8',
+                            400: '#b89b72',
+                            500: '#9c7b4f',
+                            600: '#82633c',
+                            700: '#6a5030',
+                            800: '#564128',
+                            900: '#483522',
+                            950: '#2b1e12',
+                        },
+                        amberWarm: '#d97706',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        :root {
+            --primary-color: #2C221E;
+            --accent-color: #C88A53;
+            --bg-color: #FBF9F5;
+            --card-bg: #FFFFFF;
+            --text-muted: #6B615C;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: var(--primary-color);
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            align-items: center;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(rgba(44, 34, 30, 0.7), rgba(44, 34, 30, 0.7)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1500&q=80') no-repeat center center/cover;
+            color: white;
+            min-height: 70vh;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            max-width: 700px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 500px;
+            color: #E2DDD9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #b07542;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary-color);
+        }
+
+        /* Products Section */
+        .menu-section {
+            padding: 80px 8%;
+            text-align: center;
+        }
+
+        .menu-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 50px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            text-align: left;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-img {
+            height: 200px;
+            background-color: #ddd;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+
+        .product-info p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--accent-color);
+        }
+
+        .buy-btn {
+            background: none;
+            border: 2px solid var(--primary-color);
+            padding: 6px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .buy-btn:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Login Section Container */
+        .login-section {
+            padding: 80px 8%;
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+        }
+
+        .bg-coffee-hero {
+            background-image: linear-gradient(rgba(43, 30, 18, 0.55), rgba(43, 30, 18, 0.75)), url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .tab-indicator {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Contact Section */
+        .contact-section {
+            padding: 80px 8%;
+            background-color: var(--card-bg);
+            text-align: center;
+        }
+
+        .contact-box {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--bg-color);
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        .contact-box h2 {
+            margin-bottom: 15px;
+        }
+
+        .contact-details {
+            margin: 20px 0;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        .contact-details p {
+            margin: 10px 0;
+        }
+
+        .contact-details a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .whatsapp-btn {
+            display: inline-block;
+            background-color: #25D366;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: background 0.3s;
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #1ebe5d;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 0;
+        }
+
+        footer p {
+            color: #A39B95;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">Brew & <span>Bean</span></div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#menu">Our Menu</a></li>
+                <li><a href="#auth-section">Sign In</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#auth-section" class="btn" style="padding: 8px 15px; font-size: 0.9rem;">Join Club</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Crafted with Passion, Roasted to Perfection</h1>
+        <p>Discover single-origin coffees, signature beverages, and fresh artisan treats sourced ethically.</p>
+        <div class="hero-buttons">
+            <a href="#menu" class="btn">Explore Menu</a>
+            <a href="#contact" class="btn btn-outline">Get in Touch</a>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu-section" id="menu">
+        <h2>Menu & Signature Roasts</h2>
+        <p class="section-subtitle">Freshly roasted small-batch coffees and delightful bakery items.</p>
+        
+        <div class="product-grid">
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=600&q=80');"></div>
+                <div class="product-info">
+                    <h3>Ethiopian Yirgacheffe</h3>
+                    <p>Notes of jasmine, blueberry, and bright citrus undertones. Light roast.</p>
+                    <div class="product-footer">
+                        <span class="price">$18.00</span>
+                        <button class="buy-btn" onclick="alert('Ethiopian Yirgacheffe added to your cart!')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80');"></div>
+                <div class="product-info">
+                    <h3>Colombian Supremo</h3>
+                    <p>Balanced body with caramel sweetness and dark chocolate finish. Medium roast.</p>
+                    <div class="product-footer">
+                        <span class="price">$16.50</span>
+                        <button class="buy-btn" onclick="alert('Colombian Supremo added to your cart!')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?auto=format&fit=crop&w=600&q=80');"></div>
+                <div class="product-info">
+                    <h3>Signature Cold Brew</h3>
+                    <p>Steeped for 24 hours for a smooth, naturally sweet, low-acidity refreshment.</p>
+                    <div class="product-footer">
+                        <span class="price">$5.50</span>
+                        <button class="buy-btn" onclick="alert('Signature Cold Brew added to your cart!')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80');"></div>
+                <div class="product-info">
+                    <h3>Buttery Butter Croissant</h3>
+                    <p>Flaky, golden-brown pastry baked fresh daily with authentic French butter.</p>
+                    <div class="product-footer">
+                        <span class="price">$4.00</span>
+                        <button class="buy-btn" onclick="alert('Butter Croissant added to your cart!')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card">
+                <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=600&q=80');"></div>
+                <div class="product-info">
+                    <h3>Avocado Sourdough Toast</h3>
+                    <p>Mashed avocado on artisanal crusty sourdough, topped with chili flakes and seeds.</p>
+                    <div class="product-footer">
+                        <span class="price">$8.50</span>
+                        <button class="buy-btn" onclick="alert('Avocado Sourdough Toast added to your cart!')">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login & Sign Up Section -->
+    <section class="login-section" id="auth-section">
+        <div class="w-full max-w-6xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row relative">
+
+            <!-- Left Hero Banner Side -->
+            <div class="hidden md:flex md:w-1/2 bg-coffee-hero flex-col justify-between p-12 text-white relative">
+                <div class="absolute inset-0 bg-gradient-to-t from-coffee-950/90 via-coffee-900/40 to-transparent"></div>
+                
+                <!-- Top Logo & Brand -->
+                <div class="relative z-10 flex items-center space-x-3">
+                    <div class="w-12 h-12 rounded-full bg-coffee-500/30 backdrop-blur-md flex items-center justify-center border border-white/20">
+                        <i class="fa-solid fa-mug-hot text-amber-200 text-xl"></i>
+                    </div>
+                    <span class="font-serif text-2xl font-bold tracking-wide text-amber-100">Brew & Bean</span>
+                </div>
+
+                <!-- Middle Quote & Tagline -->
+                <div class="relative z-10 space-y-4 my-auto">
+                    <span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-200 border border-amber-500/30 rounded-full text-xs font-medium tracking-wider uppercase">Artisan Roasters & Cafe</span>
+                    <h1 class="font-serif text-4xl lg:text-5xl font-bold leading-tight">Where every cup tells a cozy story.</h1>
+                    <p class="text-coffee-200 text-sm lg:text-base font-light leading-relaxed">
+                        Hand-crafted brews, freshly baked pastries, and a warm sanctuary waiting just for you. Sign in to your loyalty account to claim your daily perks.
+                    </p>
+                </div>
+
+                <!-- Bottom Footer Quote -->
+                <div class="relative z-10 text-xs text-coffee-300 flex items-center justify-between border-t border-white/10 pt-4">
+                    <p>&copy; 2026 Brew & Bean Co. All rights reserved.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-amber-200 transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="hover:text-amber-200 transition"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="hover:text-amber-200 transition"><i class="fa-brands fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Interactive Form Side -->
+            <div class="w-full md:w-1/2 bg-coffee-50 flex flex-col justify-between p-8 sm:p-12">
+                
+                <!-- Mobile Header Brand -->
+                <div class="md:hidden flex items-center justify-center space-x-2 mb-6">
+                    <div class="w-10 h-10 rounded-full bg-coffee-600 flex items-center justify-center text-white">
+                        <i class="fa-solid fa-mug-hot"></i>
+                    </div>
+                    <span class="font-serif text-xl font-bold text-coffee-800">Brew & Bean</span>
+                </div>
+
+                <div class="max-w-md w-full mx-auto my-auto py-4">
+                    
+                    <!-- Tab Switching Navigation -->
+                    <div class="flex bg-coffee-200/60 p-1.5 rounded-2xl relative mb-8">
+                        <div id="tabIndicator" class="absolute top-1.5 bottom-1.5 w-[calc(50%-6px)] bg-white rounded-xl shadow-md tab-indicator"></div>
+                        <button onclick="switchTab('login')" id="loginTabBtn" class="relative z-10 w-1/2 py-2.5 text-sm font-semibold text-coffee-900 transition-colors duration-200 text-center">Sign In</button>
+                        <button onclick="switchTab('signup')" id="signupTabBtn" class="relative z-10 w-1/2 py-2.5 text-sm font-semibold text-coffee-600 transition-colors duration-200 text-center">Create Account</button>
+                    </div>
+
+                    <!-- Toast Notification Box -->
+                    <div id="toastMessage" class="hidden mb-6 p-4 rounded-xl text-sm flex items-center space-x-3 transition-all duration-300">
+                        <i id="toastIcon" class="text-lg"></i>
+                        <span id="toastText" class="font-medium"></span>
+                    </div>
+
+                    <!-- LOGIN FORM CONTAINER -->
+                    <div id="loginFormContainer" class="space-y-6 transition-all duration-300">
+                        <div class="space-y-1">
+                            <h2 class="font-serif text-3xl font-bold text-coffee-900">Welcome back!</h2>
+                            <p class="text-xs sm:text-sm text-coffee-600">Please enter your details to access your coffee rewards.</p>
+                        </div>
+
+                        <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+                            <!-- Email Input -->
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-coffee-700">Email Address</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-coffee-400">
+                                        <i class="fa-regular fa-envelope"></i>
+                                    </span>
+                                    <input type="email" id="loginEmail" required placeholder="barista@brewandbean.com" 
+                                        class="w-full pl-11 pr-4 py-3.5 bg-white border border-coffee-200 rounded-xl text-sm text-coffee-900 placeholder-coffee-300 focus:outline-none focus:ring-2 focus:ring-coffee-500 focus:border-transparent transition">
+                                </div>
+                            </div>
+
+                            <!-- Password Input -->
+                            <div class="space-y-1.5">
+                                <div class="flex items-center justify-between">
+                                    <label class="block text-xs font-semibold uppercase tracking-wider text-coffee-700">Password</label>
+                                    <a href="#" onclick="showForgotPassword(event)" class="text-xs font-medium text-coffee-600 hover:text-coffee-900 transition">Forgot password?</a>
+                                </div>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-coffee-400">
+                                        <i class="fa-solid fa-lock"></i>
+                                    </span>
+                                    <input type="password" id="loginPassword" required placeholder="••••••••" 
+                                        class="w-full pl-11 pr-12 py-3.5 bg-white border border-coffee-200 rounded-xl text-sm text-coffee-900 placeholder-coffee-300 focus:outline-none focus:ring-2 focus:ring-coffee-500 focus:border-transparent transition">
+                                    <button type="button" onclick="togglePasswordVisibility('loginPassword', 'loginEyeIcon')" class="absolute inset-y-0 right-0 pr-4 flex items-center text-coffee-400 hover:text-coffee-700 transition">
+                                        <i id="loginEyeIcon" class="fa-regular fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Remember Me checkbox -->
+                            <div class="flex items-center justify-between text-sm">
+                                <label class="flex items-center space-x-2 cursor-pointer">
+                                    <input type="checkbox" class="w-4 h-4 text-coffee-600 border-coffee-300 rounded focus:ring-coffee-500">
+                                    <span class="text-xs text-coffee-700">Remember this device</span>
+                                </label>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="w-full py-4 bg-coffee-800 hover:bg-coffee-900 text-white font-semibold rounded-xl shadow-lg shadow-coffee-900/10 transition-all transform active:scale-[0.99] flex items-center justify-center space-x-2">
+                                <span>Sign In to Cup</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                        </form>
+
+                        <!-- Social Login Divider -->
+                        <div class="relative flex py-2 items-center">
+                            <div class="flex-grow border-t border-coffee-200"></div>
+                            <span class="flex-shrink mx-4 text-xs uppercase tracking-widest text-coffee-400 font-medium">or connect with</span>
+                            <div class="flex-grow border-t border-coffee-200"></div>
+                        </div>
+
+                        <!-- Social Buttons -->
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="socialLogin('Google')" class="flex items-center justify-center py-3 px-4 bg-white border border-coffee-200 rounded-xl text-xs font-semibold text-coffee-800 hover:bg-coffee-100 transition shadow-sm">
+                                <i class="fa-brands fa-google text-red-500 mr-2 text-sm"></i> Google
+                            </button>
+                            <button onclick="socialLogin('Apple')" class="flex items-center justify-center py-3 px-4 bg-white border border-coffee-200 rounded-xl text-xs font-semibold text-coffee-800 hover:bg-coffee-100 transition shadow-sm">
+                                <i class="fa-brands fa-apple text-gray-900 mr-2 text-sm"></i> Apple ID
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- SIGNUP FORM CONTAINER -->
+                    <div id="signupFormContainer" class="space-y-6 hidden transition-all duration-300">
+                        <div class="space-y-1">
+                            <h2 class="font-serif text-3xl font-bold text-coffee-900">Join the Club!</h2>
+                            <p class="text-xs sm:text-sm text-coffee-600">Create an account to earn free coffee stamps & perks.</p>
+                        </div>
+
+                        <form id="signupForm" onsubmit="handleSignup(event)" class="space-y-4">
+                            <!-- Full Name Input -->
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-coffee-700">Full Name</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-coffee-400">
+                                        <i class="fa-regular fa-user"></i>
+                                    </span>
+                                    <input type="text" id="signupName" required placeholder="Jane Doe" 
+                                        class="w-full pl-11 pr-4 py-3.5 bg-white border border-coffee-200 rounded-xl text-sm text-coffee-900 placeholder-coffee-300 focus:outline-none focus:ring-2 focus:ring-coffee-500 focus:border-transparent transition">
+                                </div>
+                            </div>
+
+                            <!-- Email Input -->
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-coffee-700">Email Address</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-coffee-400">
+                                        <i class="fa-regular fa-envelope"></i>
+                                    </span>
+                                    <input type="email" id="signupEmail" required placeholder="jane@example.com" 
+                                        class="w-full pl-11 pr-4 py-3.5 bg-white border border-coffee-200 rounded-xl text-sm text-coffee-900 placeholder-coffee-300 focus:outline-none focus:ring-2 focus:ring-coffee-500 focus:border-transparent transition">
+                                </div>
+                            </div>
+
+                            <!-- Password Input -->
+                            <div class="space-y-1.5">
+                                <label class="block text-xs font-semibold uppercase tracking-wider text-coffee-700">Password</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-coffee-400">
+                                        <i class="fa-solid fa-lock"></i>
+                                    </span>
+                                    <input type="password" id="signupPassword" required placeholder="At least 6 characters" minlength="6"
+                                        class="w-full pl-11 pr-12 py-3.5 bg-white border border-coffee-200 rounded-xl text-sm text-coffee-900 placeholder-coffee-300 focus:outline-none focus:ring-2 focus:ring-coffee-500 focus:border-transparent transition">
+                                    <button type="button" onclick="togglePasswordVisibility('signupPassword', 'signupEyeIcon')" class="absolute inset-y-0 right-0 pr-4 flex items-center text-coffee-400 hover:text-coffee-700 transition">
+                                        <i id="signupEyeIcon" class="fa-regular fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Terms & Conditions checkbox -->
+                            <div class="flex items-start space-x-2 text-sm pt-1">
+                                <input type="checkbox" id="termsCheck" required class="mt-0.5 w-4 h-4 text-coffee-600 border-coffee-300 rounded focus:ring-coffee-500">
+                                <label for="termsCheck" class="text-xs text-coffee-700 leading-relaxed">
+                                    I agree to the <a href="#" class="font-medium text-coffee-900 underline">Terms of Service</a> and <a href="#" class="font-medium text-coffee-900 underline">Privacy Policy</a>.
+                                </label>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="w-full py-4 bg-amberWarm hover:bg-amber-600 text-white font-semibold rounded-xl shadow-lg shadow-amber-600/15 transition-all transform active:scale-[0.99] flex items-center justify-center space-x-2">
+                                <span>Create Account & Claim Perk</span>
+                                <i class="fa-solid fa-mug-hot text-xs"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Bottom Subtext / Switch prompt -->
+                <div class="text-center pt-6 text-xs text-coffee-500 border-t border-coffee-200 mt-4">
+                    Need help with your order? <a href="#" onclick="showHelpMessage(event)" class="font-semibold text-coffee-800 underline hover:text-coffee-900">Contact Barista Support</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Direct Action Section -->
+    <section class="contact-section" id="contact">
+        <div class="contact-box">
+            <h2>Let's Talk Coffee</h2>
+            <p class="section-subtitle">Have questions about our roasts, bulk orders, or subscriptions? Reach out to us anytime!</p>
+            
+            <div class="contact-details">
+                <p>📞 Phone/WhatsApp: <a href="tel:+919999905050">+91 99999 05050</a></p>
+                <p>✉️ Email: <a href="mailto:hello@brewandbean.com">hello@brewandbean.com</a></p>
+                <p>📍 Location: Near Starbucks, M.G. Road, Mumbai</p>
+            </div>
+
+            <!-- WhatsApp Action Button -->
+            <a href="https://wa.me/15551234567?text=Hi!%20I%20would%20like%20to%20know%20more%20about%20your%20coffee." target="_blank" class="whatsapp-btn">
+                💬 Chat with Us on WhatsApp
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Brew & Bean Coffee Co. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript for Login/Signup Panel -->
+    <script>
+        // Tab Switch Functionality
+        function switchTab(tab) {
+            const loginContainer = document.getElementById('loginFormContainer');
+            const signupContainer = document.getElementById('signupFormContainer');
+            const loginBtn = document.getElementById('loginTabBtn');
+            const signupBtn = document.getElementById('signupTabBtn');
+            const indicator = document.getElementById('tabIndicator');
+            
+            hideToast();
+
+            if (tab === 'login') {
+                indicator.style.transform = 'translateX(0%)';
+                loginBtn.classList.remove('text-coffee-600');
+                loginBtn.classList.add('text-coffee-900');
+                signupBtn.classList.remove('text-coffee-900');
+                signupBtn.classList.add('text-coffee-600');
+                
+                loginContainer.classList.remove('hidden');
+                signupContainer.classList.add('hidden');
+            } else {
+                indicator.style.transform = 'translateX(100%)';
+                signupBtn.classList.remove('text-coffee-600');
+                signupBtn.classList.add('text-coffee-900');
+                loginBtn.classList.remove('text-coffee-900');
+                loginBtn.classList.add('text-coffee-600');
+                
+                signupContainer.classList.remove('hidden');
+                loginContainer.classList.add('hidden');
+            }
+        }
+
+        // Toggle Password Visibility
+        function togglePasswordVisibility(inputId, iconId) {
+            const inputField = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+
+            if (inputField.type === 'password') {
+                inputField.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                inputField.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        // Show Custom Toast Notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toastMessage');
+            const toastText = document.getElementById('toastText');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastText.textContent = message;
+            
+            if (type === 'success') {
+                toast.className = "mb-6 p-4 rounded-xl text-sm flex items-center space-x-3 bg-emerald-50 border border-emerald-200 text-emerald-800 transition-all duration-300";
+                toastIcon.className = "fa-solid fa-circle-check text-emerald-600 text-lg";
+            } else {
+                toast.className = "mb-6 p-4 rounded-xl text-sm flex items-center space-x-3 bg-amber-50 border border-amber-200 text-amber-800 transition-all duration-300";
+                toastIcon.className = "fa-solid fa-triangle-exclamation text-amber-600 text-lg";
+            }
+
+            toast.classList.remove('hidden');
+
+            setTimeout(() => {
+                hideToast();
+            }, 4000);
+        }
+
+        function hideToast() {
+            const toast = document.getElementById('toastMessage');
+            toast.classList.add('hidden');
+        }
+
+        // Handle Login Submission
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            showToast(`Welcome back, ${email.split('@')[0]}! Brewing your session...`, 'success');
+        }
+
+        // Handle Signup Submission
+        function handleSignup(event) {
+            event.preventDefault();
+            const name = document.getElementById('signupName').value;
+            showToast(`Welcome to the family, ${name}! Your free welcome pastry stamp has been added.`, 'success');
+            document.getElementById('signupForm').reset();
+        }
+
+        // Social Login handler
+        function socialLogin(provider) {
+            showToast(`Connecting with ${provider}... Please authenticate in the popup.`, 'success');
+        }
+
+        // Forgot password action
+        function showForgotPassword(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            if(!email) {
+                showToast("Please enter your email address first to reset password.", "error");
+            } else {
+                showToast(`Password reset link sent securely to ${email}.`, "success");
+            }
+        }
+
+        // Help support action
+        function showHelpMessage(event) {
+            event.preventDefault();
+            showToast("Barista Support is online! Reach us directly at hello@brewandbean.com", "success");
+        }
+    </script>
+</body>
+</html>
